@@ -59,7 +59,7 @@ class AsyncProducer(SubprocessLoop):
     MAX_SIZE = (2 ** 20)
     MAX_COUNT = 500
 
-    def __init__(self, stream_name, buffer_time, queue, max_count=None, max_size=None, boto3_session=None):
+    def __init__(self, stream_name, buffer_time, queue, max_count=None, max_size=None, boto3_session=None, endpoint_url=None):
         self.stream_name = stream_name
         self.buffer_time = buffer_time
         self.queue = queue
@@ -71,7 +71,7 @@ class AsyncProducer(SubprocessLoop):
 
         if boto3_session is None:
             boto3_session = boto3.Session()
-        self.client = boto3_session.client('kinesis')
+        self.client = boto3_session.client('kinesis', endpoint_url=endpoint_url)
 
         self.start()
 
